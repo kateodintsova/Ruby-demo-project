@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthCollectible : MonoBehaviour
 {
+    public AudioClip collectedClip;
     public ParticleSystem pickUpEffect;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -17,6 +18,8 @@ public class HealthCollectible : MonoBehaviour
                 controller.ChangeHealth(1);
                 Instantiate(pickUpEffect, transform.position, pickUpEffect.transform.rotation);
                 Destroy(gameObject);
+
+                controller.PlaySound(collectedClip);
             }
         }
     }

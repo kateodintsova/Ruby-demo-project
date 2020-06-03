@@ -8,20 +8,26 @@ public class EnemyController : MonoBehaviour
     public bool vertical;
     public float changeTime = 3.0f;
     public ParticleSystem smokeEffect;
+    public AudioClip fixedClip;
 
     Rigidbody2D rigidbody2D;
+    AudioSource audioSource;
     Animator animator;
     float timer;
     bool broken;
     int direction = 1;
+    RubyController controller;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         timer = changeTime;
         broken = true;
+
+        controller = GameObject.Find("Ruby").GetComponent<RubyController>();
     }
 
     void Update()
@@ -78,6 +84,8 @@ public class EnemyController : MonoBehaviour
     public void Fix()
     {
         broken = false;
+        audioSource.Stop();
+        controller.PlaySound(fixedClip);
         rigidbody2D.simulated = false;
         animator.SetTrigger("Fixed");
         smokeEffect.Stop();
